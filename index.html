@@ -33,13 +33,21 @@
     
     textarea { width: 100%; height: 90px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-family: inherit; font-size: 14px; }
 
-    /* Tombol Kirim */
-    .btn-kirim { background: #16a34a; color: white; border: none; padding: 16px 20px; font-size: 18px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; transition: background 0.2s; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3); margin-top: 20px; }
+    /* Tombol Cek Hasil & Kirim Guru */
+    .btn-cek { background: #2563eb; color: white; border: none; padding: 16px 20px; font-size: 18px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; transition: background 0.2s; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); margin-top: 20px; }
+    .btn-cek:hover { background: #1d4ed8; }
+    
+    .btn-kirim { background: #16a34a; color: white; border: none; padding: 16px 20px; font-size: 18px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; transition: background 0.2s; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3); margin-top: 15px; }
     .btn-kirim:hover { background: #15803d; }
     .btn-kirim:disabled { background: #94a3b8; cursor: not-allowed; box-shadow: none; }
 
-    #hasilContainer { display: none; text-align: center; padding: 30px; background: #f0fdf4; border: 2px solid #bbf7d0; border-radius: 12px; margin-top: 25px; }
-    #hasilContainer h2 { color: #166534; }
+    /* Box Tampilan Skor Akhir */
+    #skorSection { display: none; background: #f0fdf4; border: 2px dashed #22c55e; padding: 25px; border-radius: 12px; text-align: center; margin-top: 25px; }
+    #skorSection h2 { color: #15803d; margin: 0 0 10px 0; }
+    #nilaiDisplay { font-size: 36px; font-weight: 800; color: #166534; margin: 10px 0; }
+
+    #suksesInfo { display: none; text-align: center; padding: 25px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 12px; margin-top: 25px; }
+    #suksesInfo h2 { color: #1e40af; margin-top: 0; }
   </style>
 </head>
 <body>
@@ -49,7 +57,7 @@
   <p class="subtitle">Materi: <b>Unsur Intrinsik Cerita & Majas</b></p>
 
   <form id="lkpdForm">
-    <!-- Awal: Identitas Siswa & Mata Pelajaran -->
+    <!-- Identitas Siswa & Mata Pelajaran -->
     <div class="identitas-box">
       <h3 style="margin-top: 0; color: #1e3a8a;">📋 Identitas Peserta Didik</h3>
       <div class="form-group">
@@ -66,7 +74,7 @@
       </div>
     </div>
 
-    <!-- Bagian Pembahasan Singkat Materi -->
+    <!-- Bagian Pembahasan Ringkas Materi -->
     <div class="pembahasan-box">
       <h3>💡 Pembahasan Ringkas Materi</h3>
       <ul>
@@ -216,19 +224,29 @@
       <textarea id="uraian5" placeholder="Tuliskan jawaban analisis Anda..." required></textarea>
     </div>
 
-    <!-- Tombol Kirim Nilai -->
-    <button type="submit" id="btnSubmit" class="btn-kirim">📤 KIRIM NILAI KE GURU (GOOGLE SHEETS)</button>
+    <!-- TOMBOL 1: PERIKSA JAWABAN & HITUNG SKOR -->
+    <button type="button" id="btnCek" class="btn-cek">📝 KINIRIM JAWABAN & CEK TOTAL SKOR</button>
+
+    <!-- BOX HASIL SKOR & TOMBOL 2 (MUNCUL SETELAH TOMBOL 1 DIKLIK) -->
+    <div id="skorSection">
+      <h2>Hasil Evaluasi Jawaban Anda</h2>
+      <p style="margin: 0; color: #475569;">Total Skor yang Diperoleh:</p>
+      <div id="nilaiDisplay">0 / 100</div>
+      <p style="color: #64748b; font-size: 14px; margin-bottom: 15px;">Silakan periksa nilai Anda. Tekan tombol di bawah untuk merekap nilai ke guru.</p>
+      
+      <!-- TOMBOL 2: KIRIM KE GOOGLE SHEETS GURU -->
+      <button type="button" id="btnKirim" class="btn-kirim">📤 KIRIM NILAI KE GURU (GOOGLE SHEETS)</button>
+    </div>
   </form>
 
-  <div id="hasilContainer">
-    <h2>🎉 Berhasil Mengirim Nilai ke Guru!</h2>
-    <p id="pesanNilai" style="font-size: 22px; font-weight: bold; margin: 15px 0; color: #15803d;"></p>
-    <p style="color: #475569;">Data identitas, skor otomatis, dan rincian jawaban Anda telah tersimpan otomatis di Google Spreadsheet akun guru.</p>
+  <div id="suksesInfo">
+    <h2>🎉 Nilai Berhasil Terkirim!</h2>
+    <p style="color: #334155; font-size: 16px;">Terima kasih! Rekap nilai dan identitas Anda telah tersimpan otomatis di Google Spreadsheet akun guru.</p>
   </div>
 </div>
 
 <script>
-  // Kunci Jawaban Pilihan Ganda (Masing-masing bernilai 5 poin, total PG = 50 Poin)
+  // Kunci Jawaban Pilihan Ganda (10 Soal x 5 Poin = Max 50)
   const kunciPG = {
     pg1: 'B',
     pg2: 'B',
@@ -242,7 +260,7 @@
     pg10: 'D'
   };
 
-  // Kunci Kata Kunci Evaluasi Uraian (Masing-masing bernilai 10 poin, total Uraian = 50 Poin)
+  // Kunci Kata Kunci Evaluasi Uraian (5 Soal x 10 Poin = Max 50)
   const kunciUraian = {
     1: ["rembulan", "tersenyum", "angin", "menari", "manusia", "benda mati"],
     2: ["metafora", "penopang", "beban", "harapan", "keluarga"],
@@ -251,46 +269,76 @@
     5: ["hidup", "suasana", "menarik", "emosi", "dramatis", "jelas"]
   };
 
-  // URL Web App Apps Script milik Ibu (Langsung Terhubung)
+  // URL Web App Apps Script milik Ibu (Terhubung Langsung)
   const scriptURL = "https://script.google.com/macros/s/AKfycbxO4ahYqxfR5mX9ZMUrPpyZmjEYaW3AEI7MRkScvh38mJ2hHolL2bUSZ5HyNVYL2Q3b/exec";
 
-  document.getElementById('lkpdForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const btn = document.getElementById('btnSubmit');
-    btn.disabled = true;
-    btn.innerText = "⏳ Sedang Menilai & Mengirim Nilai...";
+  let totalSkorSiswa = 0;
 
-    let totalSkor = 0;
+  // HANDLER TOMBOL 1: HITUNG SKOR & TAMPILKAN HASIL
+  document.getElementById('btnCek').addEventListener('click', function() {
+    const nama = document.getElementById('namaSiswa').value.trim();
+    const kelas = document.getElementById('kelas').value.trim();
 
-    // 1. Hitung Skor Pilihan Ganda (10 soal x 5 poin = max 50)
+    // Validasi Isian Identitas
+    if (!nama || !kelas) {
+      alert("Mohon lengkapi Nama Lengkap dan Kelas/No. Absen terlebih dahulu!");
+      return;
+    }
+
+    // Validasi Jawaban Uraian
+    for (let u = 1; u <= 5; u++) {
+      if (!document.getElementById(`uraian${u}`).value.trim()) {
+        alert(`Mohon isi jawaban Uraian nomor ${u} terlebih dahulu!`);
+        return;
+      }
+    }
+
+    totalSkorSiswa = 0;
+
+    // 1. Hitung Pilihan Ganda
     for (let i = 1; i <= 10; i++) {
-      let selectedPG = document.querySelector(`input[name="pg${i}"]:checked`);
-      if (selectedPG && selectedPG.value === kunciPG[`pg${i}`]) {
-        totalSkor += 5;
+      let selected = document.querySelector(`input[name="pg${i}"]:checked`);
+      if (!selected) {
+        alert(`Mohon pilih jawaban Pilihan Ganda nomor ${i}!`);
+        return;
+      }
+      if (selected.value === kunciPG[`pg${i}`]) {
+        totalSkorSiswa += 5;
       }
     }
 
-    // 2. Hitung Skor Uraian berdasarkan Kata Kunci (5 soal x 10 poin = max 50)
+    // 2. Hitung Uraian Kata Kunci
     for (let j = 1; j <= 5; j++) {
-      let teksUraian = document.getElementById(`uraian${j}`).value.toLowerCase();
-      let keywords = kunciUraian[j];
-      let match = keywords.filter(kw => teksUraian.includes(kw)).length;
-      
+      let teks = document.getElementById(`uraian${j}`).value.toLowerCase();
+      let match = kunciUraian[j].filter(kw => teks.includes(kw)).length;
       if (match >= 2) {
-        totalSkor += 10;
+        totalSkorSiswa += 10;
       } else if (match === 1) {
-        totalSkor += 5;
+        totalSkorSiswa += 5;
       }
     }
+
+    // Tampilkan Hasil Skor & Tombol Kirim ke Guru
+    document.getElementById('nilaiDisplay').innerText = `${totalSkorSiswa} / 100`;
+    document.getElementById('skorSection').style.display = "block";
+    document.getElementById('btnCek').style.display = "none"; // Sembunyikan tombol cek
+    
+    // Scroll mulus ke area skor
+    document.getElementById('skorSection').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // HANDLER TOMBOL 2: KIRIM KE GOOGLE SHEETS GURU
+  document.getElementById('btnKirim').addEventListener('click', function() {
+    const btnKirim = document.getElementById('btnKirim');
+    btnKirim.disabled = true;
+    btnKirim.innerText = "⏳ Sedang Mengirim Nilai ke Guru...";
 
     const payload = {
       namaSiswa: document.getElementById('namaSiswa').value,
       kelas: document.getElementById('kelas').value,
-      nilaiAkhir: totalSkor
+      nilaiAkhir: totalSkorSiswa
     };
 
-    // 3. Kirim Data Otomatis ke Google Sheets Guru
     fetch(scriptURL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -300,16 +348,15 @@
     .then(data => {
       if(data.result === "success") {
         document.getElementById('lkpdForm').style.display = "none";
-        document.getElementById('hasilContainer').style.display = "block";
-        document.getElementById('pesanNilai').innerText = `Nilai Akhir Anda: ${totalSkor} / 100`;
+        document.getElementById('suksesInfo').style.display = "block";
       } else {
         throw new Error(data.error);
       }
     })
     .catch(err => {
       alert("Gagal mengirim nilai: " + err.message);
-      btn.disabled = false;
-      btn.innerText = "📤 KIRIM NILAI KE GURU (GOOGLE SHEETS)";
+      btnKirim.disabled = false;
+      btnKirim.innerText = "📤 KIRIM NILAI KE GURU (GOOGLE SHEETS)";
     });
   });
 </script>
