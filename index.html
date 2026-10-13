@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LKPD Digital Bahasa Indonesia - Unsur Intrinsik & Majas</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; margin: 0; padding: 20px; color: #334155; line-height: 1.6; }
+    .container { max-width: 850px; background: white; margin: 0 auto; padding: 30px; border-radius: 16px; box-shadow: 0 4px 25px rgba(0,0,0,0.06); }
+    
+    h1 { color: #1e3a8a; text-align: center; margin-bottom: 5px; font-size: 26px; }
+    .subtitle { text-align: center; color: #64748b; margin-bottom: 25px; font-size: 15px; }
+
+    /* Identitas Siswa & Mapel */
+    .identitas-box { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 20px; border-radius: 12px; margin-bottom: 25px; }
+    .form-group { margin-bottom: 15px; }
+    .form-group:last-child { margin-bottom: 0; }
+    label { font-weight: 600; display: block; margin-bottom: 6px; color: #1e293b; }
+    input[type="text"] { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
+    
+    /* Teks Cerita & Pembahasan */
+    .cerita-box { background: #fffbe3; border-left: 6px solid #eab308; padding: 22px; margin-bottom: 30px; border-radius: 8px; }
+    .cerita-box h2 { color: #a16207; margin-top: 0; font-size: 20px; }
+    .pembahasan-box { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 20px; border-radius: 12px; margin-bottom: 30px; }
+    .pembahasan-box h3 { color: #166534; margin-top: 0; }
+
+    /* Soal Pilihan Ganda & Uraian */
+    .soal-card { background: #ffffff; border: 1px solid #e2e8f0; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+    .soal-card p { font-weight: 600; margin-top: 0; color: #0f172a; }
+    .pg-options label { display: block; font-weight: normal; margin-bottom: 8px; cursor: pointer; background: #f8fafc; padding: 8px 12px; border-radius: 6px; border: 1px solid #e2e8f0; transition: background 0.2s; }
+    .pg-options label:hover { background: #e2e8f0; }
+    .pg-options input[type="radio"] { margin-right: 10px; }
+    
+    textarea { width: 100%; height: 90px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-family: inherit; font-size: 14px; }
+
+    /* Tombol Kirim */
+    .btn-kirim { background: #16a34a; color: white; border: none; padding: 16px 20px; font-size: 18px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; transition: background 0.2s; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3); margin-top: 20px; }
+    .btn-kirim:hover { background: #15803d; }
+    .btn-kirim:disabled { background: #94a3b8; cursor: not-allowed; box-shadow: none; }
+
+    #hasilContainer { display: none; text-align: center; padding: 30px; background: #f0fdf4; border: 2px solid #bbf7d0; border-radius: 12px; margin-top: 25px; }
+    #hasilContainer h2 { color: #166534; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>LKPD Interaktif Bahasa Indonesia</h1>
+  <p class="subtitle">Materi: <b>Unsur Intrinsik Cerita & Majas</b></p>
+
+  <form id="lkpdForm">
+    <!-- Awal: Identitas Siswa & Mata Pelajaran -->
+    <div class="identitas-box">
+      <h3 style="margin-top: 0; color: #1e3a8a;">📋 Identitas Peserta Didik</h3>
+      <div class="form-group">
+        <label for="namaSiswa">Nama Lengkap Siswa:</label>
+        <input type="text" id="namaSiswa" placeholder="Masukkan nama lengkap Anda..." required>
+      </div>
+      <div class="form-group">
+        <label for="kelas">Kelas / No. Absen:</label>
+        <input type="text" id="kelas" placeholder="Contoh: 8A / 15" required>
+      </div>
+      <div class="form-group">
+        <label for="mapel">Mata Pelajaran:</label>
+        <input type="text" id="mapel" value="Bahasa Indonesia" readonly style="background: #e2e8f0; cursor: not-allowed;">
+      </div>
+    </div>
+
+    <!-- Bagian Pembahasan Singkat Materi -->
+    <div class="pembahasan-box">
+      <h3>💡 Pembahasan Ringkas Materi</h3>
+      <ul>
+        <li><b>Unsur Intrinsik Cerita:</b> Tokoh utama (pemeran penting), Latar (tempat, waktu, suasana), Konflik (masalah), Watak (karakter), Sudut Pandang (penulis sebagai aku/orang ketiga), Alur (jalur cerita), Tema, dan Amanat (pesan moral).</li>
+        <li><b>Majas Personifikasi:</b> Menggambarkan benda mati seolah-olah memiliki sifat manusia (contoh: <i>rembulan tersenyum</i>).</li>
+        <li><b>Majas Metafora:</b> Ungkapan kiasan yang membandingkan objek secara langsung tanpa kata pembanding (contoh: <i>tulang punggung keluarga</i>).</li>
+        <li><b>Majas Hiperbola:</b> Ungkapan berlebihan yang melebihi kenyataan untuk memberi efek dramatis (contoh: <i>menumpuk setinggi gunung</i>).</li>
+      </ul>
+    </div>
+
+    <!-- Teks Cerita -->
+    <div class="cerita-box">
+      <h2>📜 A. Teks Cerita: Perjuangan Andi</h2>
+      <p>Malam itu, sang rembulan tersenyum ramah menyapa bumi, memayungi sebuah desa kecil yang terlelap dalam kesunyian. Angin malam yang dingin mulai menari-nari di sela dedaunan, membisikkan melodi sunyi yang menembus hingga ke tulang. Di dalam sebuah gubuk bambu, tampak seorang pemuda bernama Andi yang masih terjaga. Bagi Andi, perpustakaan tua di sudut kamarnya adalah jendela dunia yang tak pernah bosan ia buka, menuntunnya mengembara ke tempat-tempat yang belum pernah ia pijak.</p>
+      <p>Ia sedang berjuang keras mempersiapkan diri untuk ujian beasiswa keesokan harinya. Tugas-tugas sekolahnya malam itu sangat menumpuk hingga setinggi gunung, membuat kedua matanya terasa sangat berat. Namun, Andi menolak untuk menyerah. Ia tahu betul bahwa dirinya adalah tulang punggung keluarga yang memikul harapan besar orang tuanya demi masa depan yang lebih baik.</p>
+      <p>Ketika jarum jam dinding berbisik mengingatkan waktu yang kian larut, semangat Andi justru semakin berkobar. Rasa kantuk yang menyerangnya dilawan dengan secangkir kopi hitam pekat. Baginya, setiap lembar buku yang ia baca adalah anak tangga menuju impian. Dengan kecepatan secepat kilat, ia membalik halaman demi halaman, menyerap setiap ilmu seolah esok adalah penentu akhir dari seluruh sejarah hidupnya.</p>
+    </div>
+
+    <!-- B. SOAL PILIHAN GANDA (10 Soal) -->
+    <h2 style="color: #1e3a8a;">B. Soal Pilihan Ganda (Unsur Intrinsik)</h2>
+
+    <div class="soal-card">
+      <p>1. Siapakah tokoh utama dalam cerita di atas?</p>
+      <div class="pg-options">
+        <label><input type="radio" name="pg1" value="A" required> A. Ibu Andi</label>
+        <label><input type="radio" name="pg1" value="B"> B. Andi</label>
+        <label><input type="radio" name="pg1" value="C"> C. Penjaga perpustakaan</label>
+        <label><input type="radio" name="pg1" value="D"> D. Warga desa</label>
+      </div>
+    </div>
+
+    <div class="soal-card">
+      <p>2. Di manakah latar tempat terjadinya peristiwa dalam cerita tersebut?</p>
+      <div class="pg-options">
+        <label><input type="radio" name="pg2" value="A" required> A. Di ruang kelas sekolah</label>
+        <label><input type="radio" name="pg2" value="B"> B. Di sebuah gubuk bambu (kamar Andi)</label>
+        <label><input type="radio" name="pg2" value="C"> C. Di perpustakaan kota</label>
+        <label><input type="radio" name="pg2" value="D"> D. Di sebuah gunung yang tinggi</label>
+      </div>
+    </div>
+
+    <div class="soal-card">
+      <p>3. Kapan latar waktu peristiwa dalam cerita tersebut terjadi?</p>
+      <div class="pg-options">
+        <label><input type="radio" name="pg3" value="A" required> A. Pagi hari sebelum sekolah dimulai</label>
+        <label><input type="radio" name="pg3" value="B"> B. Siang hari yang terik</label>
+        <label><input type="radio" name="pg3" value="C"> C. Sore hari menjelang magrib</label>
+        <label><input type="radio" name="pg3" value="D"> D. Malam hari yang larut</label>
+      </div>
+    </div>
+
+    <div class="soal-card">
+      <p>4. Apa permasalahan (konflik) utama yang dihadapi oleh tokoh utama?</p>
+      <div class="pg-options">
+        <label><input type="radio" name="pg4" value="A" required> A. Buku-buku di perpustakaannya rusak dan hilang</label>
+        <label><input type="radio" name="pg4" value="B"> B. Ia harus berjuang melawan rasa kantuk dan tugas menumpuk demi ujian beasiswa</label>
+        <label><input type="radio" name="pg4" value="C"> C. Orang tuanya melarangnya untuk melanjutkan sekolah</label>
+        <label><input type="radio" name="pg4" value="D"> D. Desanya mengalami bencana alam saat malam hari</label>
+      </div>
+    </div>
+
+    <div class="soal-card">
+      <p>5. Bagaimana watak atau karakter Andi berdasarkan kutipan cerita tersebut?</p>
+      <div class="pg-options">
+        <label><input type="radio" name="pg5" value="A" required> A. Pemalas dan mudah menyerah</label>
+        <label><input type="radio" name="pg5" value="B"> B. Sombong dan suka pamer</label>
+        <label><input type="radio" name="pg5" value="C"> C. Pekerja keras, gigih, dan berbakti</label>
+        <label><input type="radio" name="pg5" value="D"> D. Penakut dan penyendiri</label>
+      </div>
+    </div>
+
+    <div class="soal-card">
+      <p>6. Mengapa Andi sangat giat belajar hingga larut malam?</p>
+      <div class="pg-options">
+        <label><input type="radio" name="pg6" value="A" required> A. Karena dihukum oleh gurunya di sekolah</label>
+        <label><input type="radio" name="pg6" value="B"> B. Untuk mempersiapkan diri menghadapi ujian beasiswa keesokan harinya</label>
+        <label><input type="radio" name="pg6" value="C"> C. Karena ia tidak bisa tidur tanpa membaca buku</label>
+        <label><input type="radio" name="pg6" value="D"> D. Untuk menghabiskan kopi hitam yang dibuatnya</label>
+      </div>
+    </div>
+
+    <div class="soal-card">
+      <p>7. Sudut pandang yang digunakan oleh penulis dalam menceritakan kisah di atas adalah...</p>
+      <div class="pg-options">
+        <label><input type="radio" name="pg7" value="A" required> A. Sudut pandang orang pertama sebagai pelaku utama (Aku)</label>
+        <label><input type="radio" name="pg7" value="B"> B. Sudut pandang orang pertama sebagai pengamat</label>
+        <label><input type="radio" name="pg7" value="C"> C. Sudut pandang orang ketiga serbatahu (Dia / Nama tokoh)</label>
+        <label><input type="radio" name="pg7" value="D"> D. Sudut pandang orang kedua</label>
+      </div>
+    </div>
+
+    <div class="soal-card">
+      <p>8. Apa alur yang digunakan dalam penggalan cerita di atas?</p>
+      <div class="pg-options">
+        <label><input type="radio" name="pg8" value="A" required> A. Alur maju (progresif)</label>
+        <label><input type="radio" name="pg8" value="B"> B. Alur mundur (regresif)</label>
+        <label><input type="radio" name="pg8" value="C"> C. Alur campuran (maju-mundur)</label>
+        <label><input type="radio" name="pg8" value="D"> D. Alur tidak beraturan</label>
+      </div>
+    </div>
+
+    <div class="soal-card">
+      <p>9. Apa tema utama dari kutipan cerita tersebut?</p>
+      <div class="pg-options">
+        <label><input type="radio" name="pg9" value="A" required> A. Persahabatan di sebuah desa kecil</label>
+        <label><input type="radio" name="pg9" value="B"> B. Keindahan alam di malam hari</label>
+        <label><input type="radio" name="pg9" value="C"> C. Perjuangan dan kegigihan meraih impian melalui pendidikan</label>
+        <label><input type="radio" name="pg9" value="D"> D. Kehidupan keluarga miskin di gubuk bambu</label>
+      </div>
+    </div>
+
+    <div class="soal-card">
+      <p>10. Amanat yang ingin disampaikan oleh penulis melalui cerita di atas adalah...</p>
+      <div class="pg-options">
+        <label><input type="radio" name="pg10" value="A" required> A. Kita harus selalu minum kopi agar kuat terjaga sampai larut malam</label>
+        <label><input type="radio" name="pg10" value="B"> B. Jangan memelihara perpustakaan di dalam kamar karena membuat sempit</label>
+        <label><input type="radio" name="pg10" value="C"> C. Jangan menunda tugas sekolah hingga menumpuk</label>
+        <label><input type="radio" name="pg10" value="D"> D. Berjuanglah dengan gigih dan jangan mudah menyerah dalam meraih cita-cita</label>
+      </div>
+    </div>
+
+    <!-- C. SOAL URAIAN (5 Soal) -->
+    <h2 style="color: #1e3a8a; margin-top: 35px;">C. Soal Uraian (Analisis Majas)</h2>
+
+    <div class="soal-card">
+      <p>1. Tuliskan dua contoh kalimat yang mengandung majas personifikasi pada paragraf pertama, dan jelaskan mengapa kalimat tersebut dikategorikan sebagai personifikasi!</p>
+      <textarea id="uraian1" placeholder="Tuliskan jawaban analisis Anda..." required></textarea>
+    </div>
+
+    <div class="soal-card">
+      <p>2. Pada paragraf kedua terdapat ungkapan "tulang punggung keluarga". Termasuk ke dalam jenis majas apakah ungkapan tersebut? Jelaskan makna tersirat dari ungkapan itu!</p>
+      <textarea id="uraian2" placeholder="Tuliskan jawaban analisis Anda..." required></textarea>
+    </div>
+
+    <div class="soal-card">
+      <p>3. Jelaskan maksud dari kalimat "Tugas-tugas sekolahnya malam itu sangat menumpuk hingga setinggi gunung"! Mengapa kalimat tersebut menggunakan majas hiperbola?</p>
+      <textarea id="uraian3" placeholder="Tuliskan jawaban analisis Anda..." required></textarea>
+    </div>
+
+    <div class="soal-card">
+      <p>4. Temukan kalimat yang mengandung majas hiperbola pada paragraf ketiga, lalu analisis efek atau kesan apa yang ingin dibangun oleh penulis kepada pembaca!</p>
+      <textarea id="uraian4" placeholder="Tuliskan jawaban analisis Anda..." required></textarea>
+    </div>
+
+    <div class="soal-card">
+      <p>5. Berdasarkan keseluruhan isi teks, jelaskan bagaimana penggunaan ketiga majas (personifikasi, metafora, dan hiperbola) tersebut dapat membantu menghidupkan suasana cerita!</p>
+      <textarea id="uraian5" placeholder="Tuliskan jawaban analisis Anda..." required></textarea>
+    </div>
+
+    <!-- Tombol Kirim Nilai -->
+    <button type="submit" id="btnSubmit" class="btn-kirim">📤 KIRIM NILAI KE GURU (GOOGLE SHEETS)</button>
+  </form>
+
+  <div id="hasilContainer">
+    <h2>🎉 Berhasil Mengirim Nilai ke Guru!</h2>
+    <p id="pesanNilai" style="font-size: 22px; font-weight: bold; margin: 15px 0; color: #15803d;"></p>
+    <p style="color: #475569;">Data identitas, skor otomatis, dan rincian jawaban Anda telah tersimpan otomatis di Google Spreadsheet akun guru.</p>
+  </div>
+</div>
+
+<script>
+  // Kunci Jawaban Pilihan Ganda (Masing-masing bernilai 5 poin, total PG = 50 Poin)
+  const kunciPG = {
+    pg1: 'B',
+    pg2: 'B',
+    pg3: 'D',
+    pg4: 'B',
+    pg5: 'C',
+    pg6: 'B',
+    pg7: 'C',
+    pg8: 'A',
+    pg9: 'C',
+    pg10: 'D'
+  };
+
+  // Kunci Kata Kunci Evaluasi Uraian (Masing-masing bernilai 10 poin, total Uraian = 50 Poin)
+  const kunciUraian = {
+    1: ["rembulan", "tersenyum", "angin", "menari", "manusia", "benda mati"],
+    2: ["metafora", "penopang", "beban", "harapan", "keluarga"],
+    3: ["hiperbola", "berlebihan", "banyak", "menumpuk", "gunung"],
+    4: ["kecepatan", "kilat", "secepat kilat", "dramatis", "semangat", "sejarah"],
+    5: ["hidup", "suasana", "menarik", "emosi", "dramatis", "jelas"]
+  };
+
+  // URL Web App Apps Script milik Ibu (Langsung Terhubung)
+  const scriptURL = "https://script.google.com/macros/s/AKfycbxO4ahYqxfR5mX9ZMUrPpyZmjEYaW3AEI7MRkScvh38mJ2hHolL2bUSZ5HyNVYL2Q3b/exec";
+
+  document.getElementById('lkpdForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const btn = document.getElementById('btnSubmit');
+    btn.disabled = true;
+    btn.innerText = "⏳ Sedang Menilai & Mengirim Nilai...";
+
+    let totalSkor = 0;
+
+    // 1. Hitung Skor Pilihan Ganda (10 soal x 5 poin = max 50)
+    for (let i = 1; i <= 10; i++) {
+      let selectedPG = document.querySelector(`input[name="pg${i}"]:checked`);
+      if (selectedPG && selectedPG.value === kunciPG[`pg${i}`]) {
+        totalSkor += 5;
+      }
+    }
+
+    // 2. Hitung Skor Uraian berdasarkan Kata Kunci (5 soal x 10 poin = max 50)
+    for (let j = 1; j <= 5; j++) {
+      let teksUraian = document.getElementById(`uraian${j}`).value.toLowerCase();
+      let keywords = kunciUraian[j];
+      let match = keywords.filter(kw => teksUraian.includes(kw)).length;
+      
+      if (match >= 2) {
+        totalSkor += 10;
+      } else if (match === 1) {
+        totalSkor += 5;
+      }
+    }
+
+    const payload = {
+      namaSiswa: document.getElementById('namaSiswa').value,
+      kelas: document.getElementById('kelas').value,
+      nilaiAkhir: totalSkor
+    };
+
+    // 3. Kirim Data Otomatis ke Google Sheets Guru
+    fetch(scriptURL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(data.result === "success") {
+        document.getElementById('lkpdForm').style.display = "none";
+        document.getElementById('hasilContainer').style.display = "block";
+        document.getElementById('pesanNilai').innerText = `Nilai Akhir Anda: ${totalSkor} / 100`;
+      } else {
+        throw new Error(data.error);
+      }
+    })
+    .catch(err => {
+      alert("Gagal mengirim nilai: " + err.message);
+      btn.disabled = false;
+      btn.innerText = "📤 KIRIM NILAI KE GURU (GOOGLE SHEETS)";
+    });
+  });
+</script>
+
+</body>
+</html>
