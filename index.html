@@ -57,7 +57,7 @@
   <p class="subtitle">Materi: <b>Unsur Intrinsik Cerita & Majas</b></p>
 
   <form id="lkpdForm">
-    <!-- Identitas Siswa & Mata Pelajaran -->
+    <!-- Identitas Siswa & Mapel -->
     <div class="identitas-box">
       <h3 style="margin-top: 0; color: #1e3a8a;">📋 Identitas Peserta Didik</h3>
       <div class="form-group">
@@ -78,10 +78,10 @@
     <div class="pembahasan-box">
       <h3>💡 Pembahasan Ringkas Materi</h3>
       <ul>
-        <li><b>Unsur Intrinsik Cerita:</b> Tokoh utama (pemeran penting), Latar (tempat, waktu, suasana), Konflik (masalah), Watak (karakter), Sudut Pandang (penulis sebagai aku/orang ketiga), Alur (jalur cerita), Tema, dan Amanat (pesan moral).</li>
-        <li><b>Majas Personifikasi:</b> Menggambarkan benda mati seolah-olah memiliki sifat manusia (contoh: <i>rembulan tersenyum</i>).</li>
-        <li><b>Majas Metafora:</b> Ungkapan kiasan yang membandingkan objek secara langsung tanpa kata pembanding (contoh: <i>tulang punggung keluarga</i>).</li>
-        <li><b>Majas Hiperbola:</b> Ungkapan berlebihan yang melebihi kenyataan untuk memberi efek dramatis (contoh: <i>menumpuk setinggi gunung</i>).</li>
+        <li><b>Unsur Intrinsik Cerita:</b> Tokoh utama, Latar (tempat, waktu, suasana), Konflik (masalah), Watak, Sudut Pandang, Alur, Tema, dan Amanat.</li>
+        <li><b>Majas Personifikasi:</b> Menggambarkan benda mati seolah berjiwa manusia (contoh: <i>rembulan tersenyum</i>).</li>
+        <li><b>Majas Metafora:</b> Ungkapan perbandingan langsung tanpa kata pembanding (contoh: <i>tulang punggung keluarga</i>).</li>
+        <li><b>Majas Hiperbola:</b> Ungkapan berlebihan untuk efek dramatis (contoh: <i>menumpuk setinggi gunung</i>).</li>
       </ul>
     </div>
 
@@ -224,43 +224,33 @@
       <textarea id="uraian5" placeholder="Tuliskan jawaban analisis Anda..." required></textarea>
     </div>
 
-    <!-- TOMBOL 1: PERIKSA JAWABAN & HITUNG SKOR -->
-    <button type="button" id="btnCek" class="btn-cek">📝 KINIRIM JAWABAN & CEK TOTAL SKOR</button>
+    <!-- TOMBOL 1: CEK SKOR DULU -->
+    <button type="button" id="btnCek" class="btn-cek">📝 CEK JAWABAN & TAMPILKAN SKOR</button>
 
-    <!-- BOX HASIL SKOR & TOMBOL 2 (MUNCUL SETELAH TOMBOL 1 DIKLIK) -->
+    <!-- BOX SKOR & TOMBOL 2 (MUNCUL SETELAH CEK SKOR) -->
     <div id="skorSection">
       <h2>Hasil Evaluasi Jawaban Anda</h2>
       <p style="margin: 0; color: #475569;">Total Skor yang Diperoleh:</p>
       <div id="nilaiDisplay">0 / 100</div>
-      <p style="color: #64748b; font-size: 14px; margin-bottom: 15px;">Silakan periksa nilai Anda. Tekan tombol di bawah untuk merekap nilai ke guru.</p>
+      <p style="color: #64748b; font-size: 14px; margin-bottom: 15px;">Silakan cek nilai Anda di atas. Jika sudah sesuai, klik tombol di bawah untuk mengirim nilai langsung ke guru.</p>
       
-      <!-- TOMBOL 2: KIRIM KE GOOGLE SHEETS GURU -->
+      <!-- TOMBOL 2: KIRIM KE GURU -->
       <button type="button" id="btnKirim" class="btn-kirim">📤 KIRIM NILAI KE GURU (GOOGLE SHEETS)</button>
     </div>
   </form>
 
   <div id="suksesInfo">
     <h2>🎉 Nilai Berhasil Terkirim!</h2>
-    <p style="color: #334155; font-size: 16px;">Terima kasih! Rekap nilai dan identitas Anda telah tersimpan otomatis di Google Spreadsheet akun guru.</p>
+    <p style="color: #334155; font-size: 16px;">Terima kasih! Rekap nilai, identitas, dan mata pelajaran Bahasa Indonesia Anda telah tersimpan otomatis di Google Spreadsheet guru.</p>
   </div>
 </div>
 
 <script>
-  // Kunci Jawaban Pilihan Ganda (10 Soal x 5 Poin = Max 50)
   const kunciPG = {
-    pg1: 'B',
-    pg2: 'B',
-    pg3: 'D',
-    pg4: 'B',
-    pg5: 'C',
-    pg6: 'B',
-    pg7: 'C',
-    pg8: 'A',
-    pg9: 'C',
-    pg10: 'D'
+    pg1: 'B', pg2: 'B', pg3: 'D', pg4: 'B', pg5: 'C',
+    pg6: 'B', pg7: 'C', pg8: 'A', pg9: 'C', pg10: 'D'
   };
 
-  // Kunci Kata Kunci Evaluasi Uraian (5 Soal x 10 Poin = Max 50)
   const kunciUraian = {
     1: ["rembulan", "tersenyum", "angin", "menari", "manusia", "benda mati"],
     2: ["metafora", "penopang", "beban", "harapan", "keluarga"],
@@ -269,23 +259,19 @@
     5: ["hidup", "suasana", "menarik", "emosi", "dramatis", "jelas"]
   };
 
-  // URL Web App Apps Script milik Ibu (Terhubung Langsung)
   const scriptURL = "https://script.google.com/macros/s/AKfycbxO4ahYqxfR5mX9ZMUrPpyZmjEYaW3AEI7MRkScvh38mJ2hHolL2bUSZ5HyNVYL2Q3b/exec";
-
   let totalSkorSiswa = 0;
 
-  // HANDLER TOMBOL 1: HITUNG SKOR & TAMPILKAN HASIL
+  // Tombol 1: Cek Jawaban & Tampilkan Skor
   document.getElementById('btnCek').addEventListener('click', function() {
     const nama = document.getElementById('namaSiswa').value.trim();
     const kelas = document.getElementById('kelas').value.trim();
 
-    // Validasi Isian Identitas
     if (!nama || !kelas) {
-      alert("Mohon lengkapi Nama Lengkap dan Kelas/No. Absen terlebih dahulu!");
+      alert("Mohon lengkapi Nama Lengkap dan Kelas terlebih dahulu!");
       return;
     }
 
-    // Validasi Jawaban Uraian
     for (let u = 1; u <= 5; u++) {
       if (!document.getElementById(`uraian${u}`).value.trim()) {
         alert(`Mohon isi jawaban Uraian nomor ${u} terlebih dahulu!`);
@@ -295,7 +281,7 @@
 
     totalSkorSiswa = 0;
 
-    // 1. Hitung Pilihan Ganda
+    // Hitung PG (10 soal x 5 poin)
     for (let i = 1; i <= 10; i++) {
       let selected = document.querySelector(`input[name="pg${i}"]:checked`);
       if (!selected) {
@@ -307,7 +293,7 @@
       }
     }
 
-    // 2. Hitung Uraian Kata Kunci
+    // Hitung Uraian (5 soal x 10 poin)
     for (let j = 1; j <= 5; j++) {
       let teks = document.getElementById(`uraian${j}`).value.toLowerCase();
       let match = kunciUraian[j].filter(kw => teks.includes(kw)).length;
@@ -318,16 +304,14 @@
       }
     }
 
-    // Tampilkan Hasil Skor & Tombol Kirim ke Guru
+    // Tampilkan Skor & Munculkan Tombol Kirim ke Guru
     document.getElementById('nilaiDisplay').innerText = `${totalSkorSiswa} / 100`;
     document.getElementById('skorSection').style.display = "block";
-    document.getElementById('btnCek').style.display = "none"; // Sembunyikan tombol cek
-    
-    // Scroll mulus ke area skor
+    document.getElementById('btnCek').style.display = "none";
     document.getElementById('skorSection').scrollIntoView({ behavior: 'smooth' });
   });
 
-  // HANDLER TOMBOL 2: KIRIM KE GOOGLE SHEETS GURU
+  // Tombol 2: Kirim ke Google Sheets Guru
   document.getElementById('btnKirim').addEventListener('click', function() {
     const btnKirim = document.getElementById('btnKirim');
     btnKirim.disabled = true;
@@ -336,6 +320,8 @@
     const payload = {
       namaSiswa: document.getElementById('namaSiswa').value,
       kelas: document.getElementById('kelas').value,
+      mataPelajaran: "Bahasa Indonesia",
+      namaTugas: "LKPD Unsur Intrinsik & Majas",
       nilaiAkhir: totalSkorSiswa
     };
 
