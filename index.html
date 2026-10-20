@@ -16,7 +16,7 @@
     .form-group { margin-bottom: 15px; }
     .form-group:last-child { margin-bottom: 0; }
     label { font-weight: 600; display: block; margin-bottom: 6px; color: #1e293b; }
-    input[type="text"] { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
+    select, input[type="text"] { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 14px; background: white; }
     
     /* Teks Cerita & Pembahasan */
     .cerita-box { background: #fffbe3; border-left: 6px solid #eab308; padding: 22px; margin-bottom: 30px; border-radius: 8px; }
@@ -54,19 +54,34 @@
 
 <div class="container">
   <h1>LKPD Interaktif Bahasa Indonesia</h1>
-  <p class="subtitle">Materi: <b>Unsur Intrinsik Cerita & Majas</b></p>
+  <p class="subtitle">Materi: <b>Unsur Intrinsik Cerita & Majas</b> - SDN 008 Kaubun</p>
 
   <form id="lkpdForm">
     <!-- Identitas Siswa & Mapel -->
     <div class="identitas-box">
       <h3 style="margin-top: 0; color: #1e3a8a;">📋 Identitas Peserta Didik</h3>
       <div class="form-group">
-        <label for="namaSiswa">Nama Lengkap Siswa:</label>
-        <input type="text" id="namaSiswa" placeholder="Masukkan nama lengkap Anda..." required>
-      </div>
-      <div class="form-group">
-        <label for="kelas">Kelas / No. Absen:</label>
-        <input type="text" id="kelas" placeholder="Contoh: 8A / 15" required>
+        <label for="selectStudent">Nama Lengkap Siswa:</label>
+        <select id="selectStudent" required>
+          <option value="">-- Pilih Nama Siswa --</option>
+          <option value="Ahmad Bibi Prianto|3159255731">Ahmad Bibi Prianto</option>
+          <option value="Ahmad Ragil Setiawan|3165165321">Ahmad Ragil Setiawan</option>
+          <option value="Ahmad Aidillah|3167865986">Ahmad Aidillah</option>
+          <option value="An Nisa Alimah|3167648314">An Nisa Alimah</option>
+          <option value="Azzahra Radya Utami|3160951909">Azzahra Radya Utami</option>
+          <option value="Fatkhul Mahdi Mubarok|3156315316">Fatkhul Mahdi Mubarok</option>
+          <option value="Gibran Albiyananda Putra|3157295581">Gibran Albiyananda Putra</option>
+          <option value="Muhammad Dandiansyah|3169059179">Muhammad Dandiansyah</option>
+          <option value="Muhammad Irawan|3167661010">Muhammad Irawan</option>
+          <option value="Muhammad Rava Azka Putra|3164563065">Muhammad Rava Azka Putra</option>
+          <option value="Munawarah Annisa Rahma|3142981567">Munawarah Annisa Rahma</option>
+          <option value="Nafisa Nur Adila Sari|3150199714">Nafisa Nur Adila Sari</option>
+          <option value="Naila Lailatul Zahwa|3158560988">Naila Lailatul Zahwa</option>
+          <option value="Rangga Syura|3164859442">Rangga Syura</option>
+          <option value="Silva Ananta Nur Afifah|3159163528">Silva Ananta Nur Afifah</option>
+          <option value="Widya Erlin Sa'diyah|3151799963">Widya Erlin Sa'diyah</option>
+          <option value="Yusep Maumali|-">Yusep Maumali</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="mapel">Mata Pelajaran:</label>
@@ -259,18 +274,25 @@
     5: ["hidup", "suasana", "menarik", "emosi", "dramatis", "jelas"]
   };
 
-  const scriptURL = "https://script.google.com/macros/s/AKfycbxO4ahYqxfR5mX9ZMUrPpyZmjEYaW3AEI7MRkScvh38mJ2hHolL2bUSZ5HyNVYL2Q3b/exec";
+  // URL Apps Script Ibu Dita
+  const scriptURL = "https://script.google.com/macros/s/AKfycbw_FcYNVbNOcagbHgqbQDC2STHxN3zzMJHAyndxVJ2oyHDAJwUChNUAnVohDWHSjrEk/exec";
+  
+  let selectedName = "";
+  let selectedNis = "";
   let totalSkorSiswa = 0;
 
   // Tombol 1: Cek Jawaban & Tampilkan Skor
   document.getElementById('btnCek').addEventListener('click', function() {
-    const nama = document.getElementById('namaSiswa').value.trim();
-    const kelas = document.getElementById('kelas').value.trim();
+    const studentVal = document.getElementById('selectStudent').value;
 
-    if (!nama || !kelas) {
-      alert("Mohon lengkapi Nama Lengkap dan Kelas terlebih dahulu!");
+    if (!studentVal) {
+      alert("Mohon pilih nama siswa terlebih dahulu!");
       return;
     }
+
+    let parts = studentVal.split('|');
+    selectedName = parts[0];
+    selectedNis = parts[1];
 
     for (let u = 1; u <= 5; u++) {
       if (!document.getElementById(`uraian${u}`).value.trim()) {
@@ -318,26 +340,23 @@
     btnKirim.innerText = "⏳ Sedang Mengirim Nilai ke Guru...";
 
     const payload = {
-      namaSiswa: document.getElementById('namaSiswa').value,
-      kelas: document.getElementById('kelas').value,
-      mataPelajaran: "Bahasa Indonesia",
-      namaTugas: "LKPD Unsur Intrinsik & Majas",
-      nilaiAkhir: totalSkorSiswa
+      tanggal: new Date().toISOString().split('T')[0],
+      nis: selectedNis || '-',
+      nama: selectedName,
+      mapel: "Bahasa Indonesia",
+      tugas: "LKPD Unsur Intrinsik & Majas",
+      nilai: totalSkorSiswa
     };
 
     fetch(scriptURL, {
       method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     })
-    .then(res => res.json())
-    .then(data => {
-      if(data.result === "success") {
-        document.getElementById('lkpdForm').style.display = "none";
-        document.getElementById('suksesInfo').style.display = "block";
-      } else {
-        throw new Error(data.error);
-      }
+    .then(() => {
+      document.getElementById('lkpdForm').style.display = "none";
+      document.getElementById('suksesInfo').style.display = "block";
     })
     .catch(err => {
       alert("Gagal mengirim nilai: " + err.message);
